@@ -3,132 +3,79 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Каталог стран</title>
-  <style>
-    /* Основной стиль страницы */
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      text-align: center;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-      color: #333;
-    }
-
-    /* Стили для контейнера с картами стран */
-    .country-list {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 20px;
-      width: 80%;
-      max-width: 1200px;
-      margin-bottom: 30px;
-    }
-
-    /* Стили для карточки страны */
-    .country-card {
-      background-color: #fff;
-      border-radius: 8px;
-      border: 1px solid #ccc;
-      padding: 20px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    /* Эффект при наведении на карточку */
-    .country-card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-    }
-
-    /* Стили для флага */
-    .country-flag {
-      width: 100px;
-      height: 60px;
-      object-fit: cover;
-      margin-bottom: 15px;
-    }
-
-    /* Стиль для информации о стране */
-    #countryInfo {
-      background-color: #fff;
-      border-radius: 8px;
-      padding: 20px;
-      width: 80%;
-      max-width: 600px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      display: none;
-      margin-top: 30px;
-    }
-
-    #capital {
-      font-size: 18px;
-      color: #555;
-    }
-  </style>
+  <title>Туристическое агентство</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <h1>Каталог стран</h1>
+  <header>
+    <h1>Туристическое агентство</h1>
+    <p>Выберите свой идеальный тур!</p>
+  </header>
 
-  <!-- Контейнер для списка стран -->
-  <div id="countryList" class="country-list">
-    <!-- Страны будут загружаться сюда -->
-  </div>
+  <main>
+    <section id="tour-offers">
+      <h2>Наши предложения</h2>
+      
+      <div class="tour-item">
+        <img src="https://ne-kurim.ru/forum/attachments/sfinks-jpg.1503560/" alt="Египет" class="tour-image">
+        <div class="tour-details">
+          <h3>Отдых на Красном море (Египет)</h3>
+          <p>7 дней, отель 5 звезд, все включено.</p>
+          <p><strong>Цена: 500 $</strong></p>
+          <button class="book-tour" onclick="bookTour('Египет', 'Отдых на Красном море')">Забронировать</button>
+        </div>
+      </div>
 
-  <!-- Контейнер для отображения информации о выбранной стране -->
-  <div id="countryInfo">
-    <h2>Информация о стране</h2>
-    <p id="capital"></p>
-    <img id="flag" src="" alt="Flag" />
-  </div>
+      <div class="tour-item">
+        <img src="https://i.pinimg.com/originals/9e/de/c9/9edec941ac919d0c1159bd9eedfe7247.jpg" alt="Таиланд" class="tour-image">
+        <div class="tour-details">
+          <h3>Пляжный отдых в Паттайе (Таиланд)</h3>
+          <p>7 дней, отель на первой линии, завтрак включен.</p>
+          <p><strong>Цена: 600 $</strong></p>
+          <button class="book-tour" onclick="bookTour('Таиланд', 'Пляжный отдых в Паттайе')">Забронировать</button>
+        </div>
+      </div>
 
-  <script>
-    // Массив с данными о странах
-    const countries = [
-      { name: "Россия", capital: "Москва", flag: "https://flagcdn.com/w320/ru.png" },
-      { name: "США", capital: "Вашингтон", flag: "https://flagcdn.com/w320/us.png" },
-      { name: "Германия", capital: "Берлин", flag: "https://flagcdn.com/w320/de.png" },
-      { name: "Франция", capital: "Париж", flag: "https://flagcdn.com/w320/fr.png" },
-      { name: "Япония", capital: "Токио", flag: "https://flagcdn.com/w320/jp.png" },
-      { name: "Италия", capital: "Рим", flag: "https://flagcdn.com/w320/it.png" },
-      // Добавьте другие страны по необходимости
-    ];
+      <div class="tour-item">
+        <img src="https://cdn.culture.ru/images/199ca5df-f619-5e8d-a6ab-ef1cb668af79" alt="Франция" class="tour-image">
+        <div class="tour-details">
+          <h3>Париж за 5 дней (Франция)</h3>
+          <p>Экскурсия по Парижу с посещением музеев и достопримечательностей.</p>
+          <p><strong>Цена: 900 $</strong></p>
+          <button class="book-tour" onclick="bookTour('Франция', 'Париж за 5 дней')">Забронировать</button>
+        </div>
+      </div>
 
-    // Функция для отображения списка стран
-    function loadCountries() {
-      const countryListElement = document.getElementById('countryList');
-      countries.forEach(country => {
-        const countryCard = document.createElement('div');
-        countryCard.className = 'country-card';
-        countryCard.innerHTML = `
-          <img src="${country.flag}" alt="${country.name} flag" class="country-flag"/>
-          <h3>${country.name}</h3>
-        `;
-        countryCard.onclick = () => displayCountryInfo(country);
-        countryListElement.appendChild(countryCard);
-      });
-    }
+      <div class="tour-item">
+        <img src="https://avatars.mds.yandex.net/i?id=bfebcba8d461ba068c6d26ae81e3a494_l-9100837-images-thumbs&n=13" alt="Италия" class="tour-image">
+        <div class="tour-details">
+          <h3>Рим и Ватикан (Италия)</h3>
+          <p>7 дней, экскурсии по Риму и Ватикану.</p>
+          <p><strong>Цена: 700 $</strong></p>
+          <button class="book-tour" onclick="bookTour('Италия', 'Рим и Ватикан')">Забронировать</button>
+        </div>
+      </div>
 
-    // Функция для отображения информации о выбранной стране
-    function displayCountryInfo(country) {
-      const countryInfo = document.getElementById('countryInfo');
-      document.getElementById('capital').innerText = `Столица: ${country.capital}`;
-      document.getElementById('flag').src = country.flag;
-      countryInfo.style.display = 'block';  // Показываем информацию о стране
-    }
+    </section>
 
-    // Загрузка данных при инициализации
-    loadCountries();
-  </script>
+    <section id="booking-form">
+      <h2>Оформить заявку</h2>
+      <form id="form">
+        <label for="name">Ваше имя:</label>
+        <input type="text" id="name" name="name" required>
+
+        <label for="email">Ваш email:</label>
+        <input type="email" id="email" name="email" required>
+
+        <button type="submit">Отправить заявку</button>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Туристическое агентство. Все права защищены.</p>
+  </footer>
+
+  <script src="script.js"></script>
 </body>
 </html>
