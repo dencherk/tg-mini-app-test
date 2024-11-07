@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Каталог стран</title>
+  <style>
+    /* Основной стиль страницы */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    /* Стили для контейнера с картами стран */
+    .country-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 20px;
+      width: 80%;
+      max-width: 1200px;
+      margin-bottom: 30px;
+    }
+
+    /* Стили для карточки страны */
+    .country-card {
+      background-color: #fff;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      padding: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    /* Эффект при наведении на карточку */
+    .country-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Стили для флага */
+    .country-flag {
+      width: 100px;
+      height: 60px;
+      object-fit: cover;
+      margin-bottom: 15px;
+    }
+
+    /* Стиль для информации о стране */
+    #countryInfo {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      width: 80%;
+      max-width: 600px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: none;
+      margin-top: 30px;
+    }
+
+    #capital {
+      font-size: 18px;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <h1>Каталог стран</h1>
+
+  <!-- Контейнер для списка стран -->
+  <div id="countryList" class="country-list">
+    <!-- Страны будут загружаться сюда -->
+  </div>
+
+  <!-- Контейнер для отображения информации о выбранной стране -->
+  <div id="countryInfo">
+    <h2>Информация о стране</h2>
+    <p id="capital"></p>
+    <img id="flag" src="" alt="Flag" />
+  </div>
+
+  <script>
+    // Массив с данными о странах
+    const countries = [
+      { name: "Россия", capital: "Москва", flag: "https://flagcdn.com/w320/ru.png" },
+      { name: "США", capital: "Вашингтон", flag: "https://flagcdn.com/w320/us.png" },
+      { name: "Германия", capital: "Берлин", flag: "https://flagcdn.com/w320/de.png" },
+      { name: "Франция", capital: "Париж", flag: "https://flagcdn.com/w320/fr.png" },
+      { name: "Япония", capital: "Токио", flag: "https://flagcdn.com/w320/jp.png" },
+      { name: "Италия", capital: "Рим", flag: "https://flagcdn.com/w320/it.png" },
+      // Добавьте другие страны по необходимости
+    ];
+
+    // Функция для отображения списка стран
+    function loadCountries() {
+      const countryListElement = document.getElementById('countryList');
+      countries.forEach(country => {
+        const countryCard = document.createElement('div');
+        countryCard.className = 'country-card';
+        countryCard.innerHTML = `
+          <img src="${country.flag}" alt="${country.name} flag" class="country-flag"/>
+          <h3>${country.name}</h3>
+        `;
+        countryCard.onclick = () => displayCountryInfo(country);
+        countryListElement.appendChild(countryCard);
+      });
+    }
+
+    // Функция для отображения информации о выбранной стране
+    function displayCountryInfo(country) {
+      const countryInfo = document.getElementById('countryInfo');
+      document.getElementById('capital').innerText = `Столица: ${country.capital}`;
+      document.getElementById('flag').src = country.flag;
+      countryInfo.style.display = 'block';  // Показываем информацию о стране
+    }
+
+    // Загрузка данных при инициализации
+    loadCountries();
+  </script>
+</body>
+</html>
