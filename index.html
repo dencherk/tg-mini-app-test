@@ -1,81 +1,190 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Туристическое агентство</title>
-  <link rel="stylesheet" href="styles.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Печенье с предсказанием</title>
+<style>
+/* Основные стили */
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
+    font-family: Arial, sans-serif;
+    gap: 15px;
+    padding-top: 40px; /* Отступ для ленты */
+    padding-bottom: 50px; /* Отступ для рекламы */
+    overflow: hidden; /* Убираем скролл */
+}
+
+.ribbon {
+    position: absolute;
+    top: 5%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #fff5cc;
+    color: #4b4b4b;
+    padding: 10px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    border-radius: 5px;
+    clip-path: polygon(5% 0%, 95% 0%, 100% 50%, 95% 100%, 5% 100%, 0% 50%);
+}
+
+.cookie-container {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.cookie-container:hover {
+    transform: scale(1.05);
+}
+
+.fortune-cookie {
+    width: 150px;
+    height: auto;
+}
+
+.fortune-paper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    background: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.2);
+    transition: transform 0.5s;
+    text-align: center;
+    width: 150px;
+    font-size: 14px;
+}
+
+.fortune-paper.show {
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.cookie-broken {
+    display: none;
+}
+
+.reset-button {
+    padding: 8px 16px;
+    font-size: 14px;
+    background-color: #fff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    margin-top: 10px;
+}
+
+.reset-button.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.reset-button:hover {
+    background-color: #f0f0f0;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+}
+
+.ad-banner {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background-color: #ffc107;
+    color: #4b4b4b;
+    text-align: center;
+    padding: 10px;
+    font-size: 14px;
+    font-weight: bold;
+    box-shadow: 0 -4px 10px rgba(0,0,0,0.2);
+}
+</style>
 </head>
 <body>
-  <header>
-    <h1>Туристическое агентство</h1>
-    <p>Выберите свой идеальный тур!</p>
-  </header>
 
-  <main>
-    <section id="tour-offers">
-      <h2>Наши предложения</h2>
-      
-      <div class="tour-item">
-        <img src="https://ne-kurim.ru/forum/attachments/sfinks-jpg.1503560/" alt="Египет" class="tour-image">
-        <div class="tour-details">
-          <h3>Отдых на Красном море (Египет)</h3>
-          <p>7 дней, отель 5 звезд, все включено.</p>
-          <p><strong>Цена: 500 $</strong></p>
-          <button class="book-tour" onclick="bookTour('Египет', 'Отдых на Красном море')">Забронировать</button>
-        </div>
-      </div>
+<div class="ribbon">Узнай что тебя ждёт</div>
 
-      <div class="tour-item">
-        <img src="https://i.pinimg.com/originals/9e/de/c9/9edec941ac919d0c1159bd9eedfe7247.jpg" alt="Таиланд" class="tour-image">
-        <div class="tour-details">
-          <h3>Пляжный отдых в Паттайе (Таиланд)</h3>
-          <p>7 дней, отель на первой линии, завтрак включен.</p>
-          <p><strong>Цена: 600 $</strong></p>
-          <button class="book-tour" onclick="bookTour('Таиланд', 'Пляжный отдых в Паттайе')">Забронировать</button>
-        </div>
-      </div>
+<div class="cookie-container">
+    <img src="cookie-whole.png" alt="Целое печенье" class="fortune-cookie cookie-whole" />
+    <img src="cookie-broken.png" alt="Сломанное печенье" class="fortune-cookie cookie-broken" />
+    
+    <div class="fortune-paper">
+        <p id="fortune-text"></p>
+    </div>
+</div>
 
-      <div class="tour-item">
-        <img src="https://cdn.culture.ru/images/199ca5df-f619-5e8d-a6ab-ef1cb668af79" alt="Франция" class="tour-image">
-        <div class="tour-details">
-          <h3>Париж за 5 дней (Франция)</h3>
-          <p>Экскурсия по Парижу с посещением музеев и достопримечательностей.</p>
-          <p><strong>Цена: 900 $</strong></p>
-          <button class="book-tour" onclick="bookTour('Франция', 'Париж за 5 дней')">Забронировать</button>
-        </div>
-      </div>
+<button class="reset-button">Ещё одно</button>
 
-      <div class="tour-item">
-        <img src="https://avatars.mds.yandex.net/i?id=bfebcba8d461ba068c6d26ae81e3a494_l-9100837-images-thumbs&n=13" alt="Италия" class="tour-image">
-        <div class="tour-details">
-          <h3>Рим и Ватикан (Италия)</h3>
-          <p>7 дней, экскурсии по Риму и Ватикану.</p>
-          <p><strong>Цена: 700 $</strong></p>
-          <button class="book-tour" onclick="bookTour('Италия', 'Рим и Ватикан')">Забронировать</button>
-        </div>
-      </div>
+<!-- Блок рекламы -->
+<div class="ad-banner">
+    Реклама: Узнайте, как привлечь удачу в свою жизнь!
+</div>
 
-    </section>
+<script>
+const fortunes = [
+    "Великие перемены ждут вас впереди",
+    "Ваше терпение будет вознаграждено",
+    "Неожиданная встреча изменит вашу жизнь",
+    "Пора начать новый проект",
+    "Удача улыбнется вам в ближайшее время",
+    "Путешествие принесет новые возможности",
+    "Ваши мечты скоро осуществятся",
+    "Хороший период для новых начинаний",
+    "Важное письмо придет на этой неделе",
+    "Старый друг принесет хорошие новости"
+];
 
-    <section id="booking-form">
-      <h2>Оформить заявку</h2>
-      <form id="form">
-        <label for="name">Ваше имя:</label>
-        <input type="text" id="name" name="name" required>
+const cookieContainer = document.querySelector('.cookie-container');
+const fortunePaper = document.querySelector('.fortune-paper');
+const cookieWhole = document.querySelector('.cookie-whole');
+const cookieBroken = document.querySelector('.cookie-broken');
+const fortuneText = document.getElementById('fortune-text');
+const resetButton = document.querySelector('.reset-button');
+let isClicked = false;
 
-        <label for="email">Ваш email:</label>
-        <input type="email" id="email" name="email" required>
+function resetCookie() {
+    isClicked = false;
+    cookieWhole.style.display = 'block';
+    cookieBroken.style.display = 'none';
+    fortunePaper.classList.remove('show');
+    resetButton.classList.remove('show');
+}
 
-        <button type="submit">Отправить заявку</button>
-      </form>
-    </section>
-  </main>
+function showFortune() {
+    if (!isClicked) {
+        isClicked = true;
+        
+        cookieWhole.style.display = 'none';
+        cookieBroken.style.display = 'block';
+        
+        const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+        fortuneText.textContent = randomFortune;
+        
+        setTimeout(() => {
+            fortunePaper.classList.add('show');
+            setTimeout(() => {
+                resetButton.classList.add('show');
+            }, 500);
+        }, 500);
+    }
+}
 
-  <footer>
-    <p>&copy; 2024 Туристическое агентство. Все права защищены.</p>
-  </footer>
-
-  <script src="script.js"></script>
+cookieContainer.addEventListener('click', showFortune);
+resetButton.addEventListener('click', resetCookie);
+</script>
 </body>
 </html>
