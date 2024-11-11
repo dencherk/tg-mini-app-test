@@ -1,4 +1,4 @@
-import fortunes from './fortunes';
+import fortunes from './fortunes.js';
 
 const cookieContainer = document.querySelector('.cookie-container');
 const fortunePaper = document.querySelector('.fortune-paper');
