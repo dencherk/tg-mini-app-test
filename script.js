@@ -1,15 +1,41 @@
-// Функция обработки бронирования тура
-function bookTour(destination, tourName) {
-  alert(`Вы выбрали тур: ${tourName} в ${destination}. Пожалуйста, заполните форму ниже, чтобы оформить заявку.`);
-  document.getElementById('booking-form').scrollIntoView({ behavior: 'smooth' });
+import fortunes from './fortunes';
+
+const cookieContainer = document.querySelector('.cookie-container');
+const fortunePaper = document.querySelector('.fortune-paper');
+const cookieWhole = document.querySelector('.cookie-whole');
+const cookieBroken = document.querySelector('.cookie-broken');
+const fortuneText = document.getElementById('fortune-text');
+const resetButton = document.querySelector('.reset-button');
+let isClicked = false;
+
+window.Telegram.WebApp.expand();
+
+function resetCookie() {
+    isClicked = false;
+    cookieWhole.style.display = 'block';
+    cookieBroken.style.display = 'none';
+    fortunePaper.classList.remove('show');
+    resetButton.classList.remove('show');
 }
 
-// Обработка подачи заявки
-document.getElementById('form').addEventListener('submit', function(event) {
-  event.preventDefault();
+function showFortune() {
+    if (!isClicked) {
+        isClicked = true;
+        
+        cookieWhole.style.display = 'none';
+        cookieBroken.style.display = 'block';
+        
+        const randomFortune = fortunes[Math.floor(Math.random() * fortunes.length)];
+        fortuneText.textContent = randomFortune;
+        
+        setTimeout(() => {
+            fortunePaper.classList.add('show');
+            setTimeout(() => {
+                resetButton.classList.add('show');
+            }, 500);
+        }, 500);
+    }
+}
 
-  const name = document.getElementById('name').value;
-  const email = document.getElementById('email').value;
-
-  alert(`Спасибо за заявку, ${name}! Мы свяжемся с вами по email: ${email}.`);
-});
+cookieContainer.addEventListener('click', showFortune);
+resetButton.addEventListener('click', resetCookie);
